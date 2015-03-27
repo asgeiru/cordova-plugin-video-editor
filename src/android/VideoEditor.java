@@ -1,4 +1,4 @@
-package org.apache.cordova.videoeditor;
+package org.golin.cordova.videoeditor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
