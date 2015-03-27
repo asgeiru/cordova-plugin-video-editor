@@ -1,3 +1,5 @@
+###This fork was created to make the plugin work the way I wanted###
+
 This is a cordova plugin to assist in several video editing tasks such as:
 
 * Transcoding
