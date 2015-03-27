@@ -29,7 +29,7 @@
         <!-- add ffmpeg4android lib -->
         <framework src="src/android/ffmpeg4android_lib" custom="true" />
         <!-- add plugin class -->
-        <source-file src="src/android/VideoEditor.java" target-dir="src/videoeditor" />
+        <source-file src="src/android/VideoEditor.java" target-dir="src/org/golin/cordova/videoeditor" />
     </platform>
 
     <!-- ios -->
