@@ -112,7 +112,7 @@ public class VideoEditor extends CordovaPlugin {
         
         Log.d(TAG, "videoSrcPath: " + videoSrcPath);
                         
-        String outputExtension;
+        String outputScaleResolution;
         final String outputResolution; // arbitrary value used for ffmpeg, tailor to your needs
         
         switch(outputType) {
@@ -133,14 +133,14 @@ public class VideoEditor extends CordovaPlugin {
         
         switch(videoQuality) {
             case LowQuality:
-                outputResolution = "320x320";
+                outputScaleResolution = "scale=320:trunc(ow/a/2)*2";
                 break;
             case MediumQuality:
-                outputResolution = "480x480";
+                outputScaleResolution = "scale=480:trunc(ow/a/2)*2";
                 break;
             case HighQuality:
             default:
-                outputResolution = "640x640"; 
+                outputScaleResolution = "scale=640:trunc(ow/a/2)*2"; 
                 break;
         }
         
@@ -197,10 +197,8 @@ public class VideoEditor extends CordovaPlugin {
                     al.add(videoSrcPath); 
                     al.add("-strict");
                     al.add("experimental");
-                    //al.add("-s"); // frame size (resolution)
-                    //al.add(videoFrameSize);
                     al.add("-vf");
-                    al.add("scale=640:trunc(ow/a/2)*2");
+                    al.add(outputScaleResolution);
                     al.add("-r"); // fps, TODO: control fps based on quality plugin argument
                     al.add("24"); 
                     al.add("-vcodec");
