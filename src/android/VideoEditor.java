@@ -101,6 +101,8 @@ public class VideoEditor extends CordovaPlugin {
         }
                         
         final String videoSrcPath = inFile.getAbsolutePath();
+        final String videoFrameSize = options.optString("frameSize", "640x640");
+        Log.d(TAG, "frameSize: " + videoFrameSize);
         final String outputFileName = options.optString(
             "outputFileName", 
             new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date())
@@ -196,7 +198,7 @@ public class VideoEditor extends CordovaPlugin {
                     al.add("-strict");
                     al.add("experimental");
                     al.add("-s"); // frame size (resolution)
-                    al.add(outputResolution);
+                    al.add(videoFrameSize);
                     al.add("-r"); // fps, TODO: control fps based on quality plugin argument
                     al.add("24"); 
                     al.add("-vcodec");
