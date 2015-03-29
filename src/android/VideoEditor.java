@@ -112,8 +112,8 @@ public class VideoEditor extends CordovaPlugin {
         
         Log.d(TAG, "videoSrcPath: " + videoSrcPath);
                         
-        String outputScaleResolution;
-        final String outputResolution; // arbitrary value used for ffmpeg, tailor to your needs
+        String outputExtension;
+        final String outputScaleResolution; // arbitrary value used for ffmpeg, tailor to your needs
         
         switch(outputType) {
             case QUICK_TIME:
