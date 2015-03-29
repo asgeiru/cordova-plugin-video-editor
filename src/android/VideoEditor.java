@@ -197,8 +197,10 @@ public class VideoEditor extends CordovaPlugin {
                     al.add(videoSrcPath); 
                     al.add("-strict");
                     al.add("experimental");
-                    al.add("-s"); // frame size (resolution)
-                    al.add(videoFrameSize);
+                    //al.add("-s"); // frame size (resolution)
+                    //al.add(videoFrameSize);
+                    al.add("-vf");
+                    al.add("scale=640:trunc(ow/a/2)*2")
                     al.add("-r"); // fps, TODO: control fps based on quality plugin argument
                     al.add("24"); 
                     al.add("-vcodec");
