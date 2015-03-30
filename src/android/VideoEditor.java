@@ -103,10 +103,7 @@ public class VideoEditor extends CordovaPlugin {
         final String videoSrcPath = inFile.getAbsolutePath();
         final String videoFrameSize = options.optString("frameSize", "640x640");
         Log.d(TAG, "frameSize: " + videoFrameSize);
-        final String outputFileName = options.optString(
-            "outputFileName", 
-            new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date())
-        );
+        final String outputFileName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date();
         final int videoQuality = options.optInt("quality", HighQuality);
         final int outputType = options.optInt("outputFileType", MPEG4);
         
