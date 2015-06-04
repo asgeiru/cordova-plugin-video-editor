@@ -26,8 +26,8 @@ VideoEditor.install = function () {
     window.plugins = {};
   }
 
-  window.plugins.videocaptureplus = new VideoEditor();
-  return window.plugins.videocaptureplus;
+  window.plugins.videoEditor = new VideoEditor();
+  return window.plugins.videoEditor;
 };
 
 cordova.addConstructor(VideoEditor.install);
