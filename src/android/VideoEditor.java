@@ -179,24 +179,23 @@ public class VideoEditor extends CordovaPlugin {
             "VID_" + outputFileName + outputExtension
         ).getAbsolutePath();
         
-        Log.v(TAG, "Ásgeir 0");
+        Log.v(TAG, "Asgeir 0");
         Log.v(TAG, "outputFilePath: " + outputFilePath);
-        Log.v(TAG, "Ásgeir 1");
+        Log.v(TAG, "Asgeir 1");
         final double videoDuration = options.optDouble("duration", 0);
-        Log.v(TAG, "Ásgeir 2");
+        Log.v(TAG, "Asgeir 2");
        
         cordova.getThreadPool().execute(new Runnable() {
-            Log.v(TAG, "Ásgeir 3");
             public void run() {             
                 
-                Log.v(TAG, "Ásgeir 4");
+                Log.v(TAG, "Asgeir 4");
                 LoadJNI vk = new LoadJNI();
                  try {
 
-        Log.v(TAG, "Ásgeir 5");
+        Log.v(TAG, "Asgeir 5");
                     String workFolder = appContext.getFilesDir().getAbsolutePath();
         
-        Log.v(TAG, "Ásgeir 6");                                
+        Log.v(TAG, "Asgeir 6");                                
                     ArrayList<String> al = new ArrayList<String>();
                     al.add("ffmpeg");
                     al.add("-y"); // overwrite output files
@@ -227,19 +226,19 @@ public class VideoEditor extends CordovaPlugin {
                         al.add(Double.toString(videoDuration));
                     }
         
-        Log.v(TAG, "Ásgeir 7");            
+        Log.v(TAG, "Asgeir 7");            
                     al.add(outputFilePath); // output file at end of string
         
-        Log.v(TAG, "Ásgeir 8");            
+        Log.v(TAG, "Asgeir 8");            
                     String[] ffmpegCommand = al.toArray(new String[al.size()]);
         
-        Log.v(TAG, "Ásgeir 9");            
+        Log.v(TAG, "Asgeir 9");            
                     vk.run(ffmpegCommand, workFolder, appContext);
         
-        Log.v(TAG, "Ásgeir 10");            
+        Log.v(TAG, "Asgeir 10");            
                     Log.v(TAG, "ffmpeg4android finished");
         
-        Log.v(TAG, "Ásgeir 11");            
+        Log.v(TAG, "Asgeir 11");            
                     File outFile = new File(outputFilePath);
                     if (!outFile.exists()) {
                         Log.v(TAG, "outputFile doesn't exist!");
@@ -247,7 +246,7 @@ public class VideoEditor extends CordovaPlugin {
                         return;
                     }
         
-        Log.v(TAG, "Ásgeir 12");                                
+        Log.v(TAG, "Asgeir 12");                                
                     // make the gallery display the new file if saving to library
                     if (saveToLibrary) {
                         // remove the original input file when saving to gallery
@@ -256,14 +255,14 @@ public class VideoEditor extends CordovaPlugin {
                             Log.v(TAG, "unable to delete in file");
                         }
         
-        Log.v(TAG, "Ásgeir 13");                
+        Log.v(TAG, "Asgeir 13");                
                         Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                         scanIntent.setData(Uri.fromFile(inFile));
                         scanIntent.setData(Uri.fromFile(outFile));
                         appContext.sendBroadcast(scanIntent);
                     }
         
-        Log.v(TAG, "Ásgeir 14");            
+        Log.v(TAG, "Asgeir 14");            
                     callback.success(outputFilePath);
                 } catch (Throwable e) {
                     Log.v(TAG, "vk run exception.", e);
