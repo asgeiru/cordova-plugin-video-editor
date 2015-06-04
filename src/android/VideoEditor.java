@@ -179,17 +179,24 @@ public class VideoEditor extends CordovaPlugin {
             "VID_" + outputFileName + outputExtension
         ).getAbsolutePath();
         
+        Log.v(TAG, "Ásgeir 0");
         Log.v(TAG, "outputFilePath: " + outputFilePath);
-        
+        Log.v(TAG, "Ásgeir 1");
         final double videoDuration = options.optDouble("duration", 0);
+        Log.v(TAG, "Ásgeir 2");
        
         cordova.getThreadPool().execute(new Runnable() {
+            Log.v(TAG, "Ásgeir 3");
             public void run() {             
                 
+                Log.v(TAG, "Ásgeir 4");
                 LoadJNI vk = new LoadJNI();
                  try {
+
+        Log.v(TAG, "Ásgeir 5");
                     String workFolder = appContext.getFilesDir().getAbsolutePath();
-                                        
+        
+        Log.v(TAG, "Ásgeir 6");                                
                     ArrayList<String> al = new ArrayList<String>();
                     al.add("ffmpeg");
                     al.add("-y"); // overwrite output files
@@ -219,39 +226,47 @@ public class VideoEditor extends CordovaPlugin {
                         al.add("-t"); // duration may be a number in seconds, or in hh:mm:ss[.xxx] form.
                         al.add(Double.toString(videoDuration));
                     }
-                    
+        
+        Log.v(TAG, "Ásgeir 7");            
                     al.add(outputFilePath); // output file at end of string
-                    
+        
+        Log.v(TAG, "Ásgeir 8");            
                     String[] ffmpegCommand = al.toArray(new String[al.size()]);
-                    
+        
+        Log.v(TAG, "Ásgeir 9");            
                     vk.run(ffmpegCommand, workFolder, appContext);
-                    
-                    Log.d(TAG, "ffmpeg4android finished");
-                    
+        
+        Log.v(TAG, "Ásgeir 10");            
+                    Log.v(TAG, "ffmpeg4android finished");
+        
+        Log.v(TAG, "Ásgeir 11");            
                     File outFile = new File(outputFilePath);
                     if (!outFile.exists()) {
-                        Log.d(TAG, "outputFile doesn't exist!");
+                        Log.v(TAG, "outputFile doesn't exist!");
                         callback.error("an error ocurred during transcoding");
                         return;
                     }
-                                        
+        
+        Log.v(TAG, "Ásgeir 12");                                
                     // make the gallery display the new file if saving to library
                     if (saveToLibrary) {
                         // remove the original input file when saving to gallery
                         // comment out or remove the delete based on your needs
                         if (!inFile.delete()) {
-                            Log.d(TAG, "unable to delete in file");
+                            Log.v(TAG, "unable to delete in file");
                         }
-                        
+        
+        Log.v(TAG, "Ásgeir 13");                
                         Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                         scanIntent.setData(Uri.fromFile(inFile));
                         scanIntent.setData(Uri.fromFile(outFile));
                         appContext.sendBroadcast(scanIntent);
                     }
-                    
+        
+        Log.v(TAG, "Ásgeir 14");            
                     callback.success(outputFilePath);
                 } catch (Throwable e) {
-                    Log.d(TAG, "vk run exception.", e);
+                    Log.v(TAG, "vk run exception.", e);
                     callback.error(e.toString());
                 }
             }
