@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="com.asgeiru.cordova.videoeditor" version="0.0.8" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="com.asgeiru.cordova.videoeditor" version="0.0.7c" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>VideoEditor</name>
     <description>A plugin to assist in video editing tasks</description>
     <keywords>cordova,video,editing,transcoding,encoding</keywords>
-    <repo>https://github.com/asgeiru/cordova-plugin-video-editor.git</repo>
+    <repo>https://github.com/goling/cordova-plugin-video-editor.git</repo>
     <license>Apache 2.0</license>
 
 
@@ -23,13 +23,13 @@
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="VideoEditor">
-                <param name="android-package" value="com.asgeiru.video" />
+                <param name="android-package" value="com.asgeiru.cordova.videoeditor.VideoEditor" />
             </feature>
         </config-file>
         <!-- add ffmpeg4android lib -->
         <framework src="src/android/ffmpeg4android_lib" custom="true" />
         <!-- add plugin class -->
-        <source-file src="src/android/VideoEditor.java" target-dir="src/com/asgeiru/video" />
+        <source-file src="src/android/VideoEditor.java" target-dir="src/com/asgeiru/cordova/videoeditor" />
     </platform>
 
     <!-- ios -->
