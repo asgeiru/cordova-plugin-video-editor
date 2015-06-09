@@ -20,14 +20,4 @@ VideoEditor.prototype.createThumbnail = function(success, error, options) {
     exec(success, error, pluginName, 'createThumbnail', [options]);
 };
 
-//module.exports = new VideoEditor();
-VideoEditor.install = function () {
-  if (!window.plugins) {
-    window.plugins = {};
-  }
-
-  window.plugins.videoEditor = new VideoEditor();
-  return window.plugins.videoEditor;
-};
-
-cordova.addConstructor(VideoEditor.install);
+module.exports = new VideoEditor();
