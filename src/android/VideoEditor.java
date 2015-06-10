@@ -183,7 +183,7 @@ public class VideoEditor extends CordovaPlugin {
         
         final double videoDuration = options.optDouble("duration", 0);
         
-        Log.v(TAG, cordova.getThreadPool());
+        Log.v(TAG, cordova.getThreadPool().toString());
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {             
                 
