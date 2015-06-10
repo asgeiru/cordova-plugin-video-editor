@@ -182,14 +182,17 @@ public class VideoEditor extends CordovaPlugin {
         Log.v(TAG, "outputFilePath: " + outputFilePath);
         
         final double videoDuration = options.optDouble("duration", 0);
-       
+        
+        Log.v(TAG, "asgeir 1");
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {             
                 
                 LoadJNI vk = new LoadJNI();
                  try {
+                    Log.v(TAG, "asgeir 2");
                     String workFolder = appContext.getFilesDir().getAbsolutePath();
-                                        
+                        
+                    Log.v(TAG, "asgeir 3");                
                     ArrayList<String> al = new ArrayList<String>();
                     al.add("ffmpeg");
                     al.add("-y"); // overwrite output files
@@ -219,6 +222,7 @@ public class VideoEditor extends CordovaPlugin {
                         al.add("-t"); // duration may be a number in seconds, or in hh:mm:ss[.xxx] form.
                         al.add(Double.toString(videoDuration));
                     }
+                    Log.v(TAG, "asgeir 4");
                     
                     al.add(outputFilePath); // output file at end of string
                     
