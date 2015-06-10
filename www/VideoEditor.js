@@ -12,7 +12,12 @@ function VideoEditor() {
 }
 
 VideoEditor.prototype.transcodeVideo = function(success, error, options) {
-    exec(success, error, pluginName, 'transcodeVideo', [options]);
+	console.log('reciving transcore request');
+	console.log(success);
+	console.log(error);
+	console.log(options);
+	exec(success, error, pluginName, 'transcodeVideo', [options]);
+	console.log('after transcode request');
 };
 
 VideoEditor.prototype.createThumbnail = function(success, error, options) {
