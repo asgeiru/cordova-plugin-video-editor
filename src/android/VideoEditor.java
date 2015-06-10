@@ -183,83 +183,88 @@ public class VideoEditor extends CordovaPlugin {
         
         final double videoDuration = options.optDouble("duration", 0);
         
-        Log.v(TAG, cordova.getThreadPool().toString());
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {             
-                
-                LoadJNI vk = new LoadJNI();
-                 try {
-                    Log.v(TAG, "asgeir 2");
-                    String workFolder = appContext.getFilesDir().getAbsolutePath();
+        Log.v(TAG, "asgeir 1");
+        try {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {             
+                    
+                    LoadJNI vk = new LoadJNI();
+                     try {
+                        Log.v(TAG, "asgeir 2");
+                        String workFolder = appContext.getFilesDir().getAbsolutePath();
+                            
+                        Log.v(TAG, "asgeir 3");                
+                        ArrayList<String> al = new ArrayList<String>();
+                        al.add("ffmpeg");
+                        al.add("-y"); // overwrite output files
+                        al.add("-i"); // input file
+                        al.add(videoSrcPath); 
+                        al.add("-strict");
+                        al.add("experimental");
+                        al.add("-vf");
+                        al.add(outputScaleResolution);
+                        al.add("-r"); // fps, TODO: control fps based on quality plugin argument
+                        al.add("24"); 
+                        al.add("-vcodec");
+                        al.add("libx264"); // mpeg4 works good too
+                        al.add("-preset");
+                        al.add("ultrafast"); // needed b/c libx264 doesn't utilize all CPU cores
+                        al.add("-b");
+                        al.add("2097152"); // TODO: allow tuning the video bitrate based on quality plugin argument
+                        //al.add("-ab"); // can't find this in ffmpeg docs, not sure on this yet
+                        //al.add("48000");
+                        al.add("-ac"); // audio channels 
+                        al.add("1");
+                        al.add("-ar"); // sampling frequency
+                        al.add("22050"); 
+                        if (videoDuration != 0) {
+                            //al.add("-ss"); // start position may be either in seconds or in hh:mm:ss[.xxx] form.
+                            //al.add("0");
+                            al.add("-t"); // duration may be a number in seconds, or in hh:mm:ss[.xxx] form.
+                            al.add(Double.toString(videoDuration));
+                        }
+                        Log.v(TAG, "asgeir 4");
                         
-                    Log.v(TAG, "asgeir 3");                
-                    ArrayList<String> al = new ArrayList<String>();
-                    al.add("ffmpeg");
-                    al.add("-y"); // overwrite output files
-                    al.add("-i"); // input file
-                    al.add(videoSrcPath); 
-                    al.add("-strict");
-                    al.add("experimental");
-                    al.add("-vf");
-                    al.add(outputScaleResolution);
-                    al.add("-r"); // fps, TODO: control fps based on quality plugin argument
-                    al.add("24"); 
-                    al.add("-vcodec");
-                    al.add("libx264"); // mpeg4 works good too
-                    al.add("-preset");
-                    al.add("ultrafast"); // needed b/c libx264 doesn't utilize all CPU cores
-                    al.add("-b");
-                    al.add("2097152"); // TODO: allow tuning the video bitrate based on quality plugin argument
-                    //al.add("-ab"); // can't find this in ffmpeg docs, not sure on this yet
-                    //al.add("48000");
-                    al.add("-ac"); // audio channels 
-                    al.add("1");
-                    al.add("-ar"); // sampling frequency
-                    al.add("22050"); 
-                    if (videoDuration != 0) {
-                        //al.add("-ss"); // start position may be either in seconds or in hh:mm:ss[.xxx] form.
-                        //al.add("0");
-                        al.add("-t"); // duration may be a number in seconds, or in hh:mm:ss[.xxx] form.
-                        al.add(Double.toString(videoDuration));
-                    }
-                    Log.v(TAG, "asgeir 4");
-                    
-                    al.add(outputFilePath); // output file at end of string
-                    
-                    String[] ffmpegCommand = al.toArray(new String[al.size()]);
-                    
-                    vk.run(ffmpegCommand, workFolder, appContext);
-                    
-                    Log.d(TAG, "ffmpeg4android finished");
-                    
-                    File outFile = new File(outputFilePath);
-                    if (!outFile.exists()) {
-                        Log.d(TAG, "outputFile doesn't exist!");
-                        callback.error("an error ocurred during transcoding");
-                        return;
-                    }
-                                        
-                    // make the gallery display the new file if saving to library
-                    if (saveToLibrary) {
-                        // remove the original input file when saving to gallery
-                        // comment out or remove the delete based on your needs
-                        if (!inFile.delete()) {
-                            Log.d(TAG, "unable to delete in file");
+                        al.add(outputFilePath); // output file at end of string
+                        
+                        String[] ffmpegCommand = al.toArray(new String[al.size()]);
+                        
+                        vk.run(ffmpegCommand, workFolder, appContext);
+                        
+                        Log.d(TAG, "ffmpeg4android finished");
+                        
+                        File outFile = new File(outputFilePath);
+                        if (!outFile.exists()) {
+                            Log.d(TAG, "outputFile doesn't exist!");
+                            callback.error("an error ocurred during transcoding");
+                            return;
+                        }
+                                            
+                        // make the gallery display the new file if saving to library
+                        if (saveToLibrary) {
+                            // remove the original input file when saving to gallery
+                            // comment out or remove the delete based on your needs
+                            if (!inFile.delete()) {
+                                Log.d(TAG, "unable to delete in file");
+                            }
+                            
+                            Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            scanIntent.setData(Uri.fromFile(inFile));
+                            scanIntent.setData(Uri.fromFile(outFile));
+                            appContext.sendBroadcast(scanIntent);
                         }
                         
-                        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        scanIntent.setData(Uri.fromFile(inFile));
-                        scanIntent.setData(Uri.fromFile(outFile));
-                        appContext.sendBroadcast(scanIntent);
+                        callback.success(outputFilePath);
+                    } catch (Throwable e) {
+                        Log.d(TAG, "vk run exception.", e);
+                        callback.error(e.toString());
                     }
-                    
-                    callback.success(outputFilePath);
-                } catch (Throwable e) {
-                    Log.d(TAG, "vk run exception.", e);
-                    callback.error(e.toString());
                 }
-            }
-        });
+            });
+        } catch (Throwable e) {
+            Log.d(TAG, "ex", e);
+            callback.error(e.toString());
+        }
     }
     
     @SuppressWarnings("unused")
