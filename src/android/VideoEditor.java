@@ -1,4 +1,4 @@
-package org.golin.cordova.videoeditor;
+package com.asgeiru.videoeditor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
